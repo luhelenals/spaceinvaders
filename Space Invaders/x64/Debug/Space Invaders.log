@@ -1,9 +1,6 @@
 ﻿  Main.cpp
-C:\Users\luiza\source\repos\Space Invaders\src\Main.cpp(146,33): warning C4267: 'argument': conversion from 'size_t' to 'GLsizei', possible loss of data
-C:\Users\luiza\source\repos\Space Invaders\src\Main.cpp(146,19): warning C4267: 'argument': conversion from 'size_t' to 'GLsizei', possible loss of data
-C:\Users\luiza\source\repos\Space Invaders\src\Main.cpp(254,62): warning C4267: 'argument': conversion from 'size_t' to 'GLsizei', possible loss of data
-C:\Users\luiza\source\repos\Space Invaders\src\Main.cpp(254,48): warning C4267: 'argument': conversion from 'size_t' to 'GLsizei', possible loss of data
-glew32s.lib(glew.obj) : warning LNK4099: PDB '' was not found with 'glew32s.lib(glew.obj)' or at ''; linking object as if no debug info
-LINK : warning LNK4098: defaultlib 'LIBCMT' conflicts with use of other libs; use /NODEFAULTLIB:library
-LINK : warning LNK4098: defaultlib 'MSVCRT' conflicts with use of other libs; use /NODEFAULTLIB:library
+C:\Users\luiza\source\repos\Space Invaders\src\Main.cpp(163,33): warning C4267: 'argument': conversion from 'size_t' to 'GLsizei', possible loss of data
+C:\Users\luiza\source\repos\Space Invaders\src\Main.cpp(163,19): warning C4267: 'argument': conversion from 'size_t' to 'GLsizei', possible loss of data
+C:\Users\luiza\source\repos\Space Invaders\src\Main.cpp(283,62): warning C4267: 'argument': conversion from 'size_t' to 'GLsizei', possible loss of data
+C:\Users\luiza\source\repos\Space Invaders\src\Main.cpp(283,48): warning C4267: 'argument': conversion from 'size_t' to 'GLsizei', possible loss of data
   Space Invaders.vcxproj -> C:\Users\luiza\source\repos\Space Invaders\x64\Debug\Space Invaders.exe

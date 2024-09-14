@@ -36,7 +36,7 @@
               "RelativeDocumentMoniker": "src\\Items.cpp",
               "ToolTip": "C:\\Users\\luiza\\source\\repos\\Space Invaders\\src\\Items.cpp",
               "RelativeToolTip": "src\\Items.cpp",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAoAAAAHAAAA",
+              "ViewState": "AQIAABYAAAAAAAAAAAAtwCUAAAATAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
               "WhenOpened": "2024-09-13T01:38:58.493Z",
               "EditorCaption": ""
@@ -62,7 +62,7 @@
               "RelativeDocumentMoniker": "src\\Main.cpp",
               "ToolTip": "C:\\Users\\luiza\\source\\repos\\Space Invaders\\src\\Main.cpp",
               "RelativeToolTip": "src\\Main.cpp",
-              "ViewState": "AQIAAB4BAAAAAAAAAAAAACYBAAA1AAAA",
+              "ViewState": "AQIAAHUAAAAAAAAAAAAtwIQAAAAtAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
               "WhenOpened": "2024-09-12T01:49:21.07Z",
               "EditorCaption": ""
@@ -77,8 +77,7 @@
               "RelativeToolTip": "shaders\\Source.shader",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAAQAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
-              "WhenOpened": "2024-09-13T01:03:42.971Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-09-13T01:03:42.971Z"
             }
           ]
         }

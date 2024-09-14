@@ -1,4 +1,5 @@
 #include <cstdint>
+#define GAME_MAX_BULLETS 128
 
 struct Buffer
 {
@@ -24,12 +25,20 @@ struct Player
 	size_t life;
 };
 
+struct Bullet
+{
+	size_t x, y;
+	int dir;
+};
+
 struct Game
 {
 	size_t width, height;
 	size_t num_aliens;
+	size_t num_bullets;
 	Alien* aliens;
 	Player player;
+	Bullet bullets[GAME_MAX_BULLETS];
 };
 
 struct SpriteAnimation

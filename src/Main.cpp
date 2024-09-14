@@ -42,10 +42,20 @@ void validate_shader(GLuint shader, const char* file);
 void CreateTexture(Buffer buffer);
 Sprite CreateAlien(bool up);
 Sprite CreatePlayer();
+Buffer CreateBuffer();
+Game CreateGame();
+SpriteAnimation* CreateAnimation(Sprite alien_sprite, Sprite alien_sprite1);
+void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods);
+Sprite CreateBullet();
+
+bool game_running = false;
+int move_dir = 0;
+bool fire_pressed = 0;
 
 int main(void) {
 	if (!initOpenGL())
 		return -1;
+	glfwSetKeyCallback(window, key_callback);
 
     int glVersion[2] = { -1, 1 };
     glGetIntegerv(GL_MAJOR_VERSION, &glVersion[0]);
@@ -60,10 +70,7 @@ int main(void) {
     glClearColor(1.0, 0.0, 0.0, 1.0);
 
     // Create graphics buffer
-    Buffer buffer;
-    buffer.width = buffer_width;
-    buffer.height = buffer_height;
-    buffer.data = new uint32_t[buffer.width * buffer.height];
+	Buffer buffer = CreateBuffer();
 
     buffer_clear(&buffer, 0);
 
@@ -81,7 +88,6 @@ int main(void) {
     GLint location = glGetUniformLocation(shader_id, "buffer");
     glUniform1i(location, 0);
 
-
     //OpenGL setup
     glDisable(GL_DEPTH_TEST);
     glActiveTexture(GL_TEXTURE0);
@@ -92,29 +98,9 @@ int main(void) {
 	Sprite alien_sprite = CreateAlien(true);
 	Sprite alien_sprite1 = CreateAlien(false);
 	Sprite player_sprite = CreatePlayer();
-
-	SpriteAnimation* alien_animation = new SpriteAnimation;
-
-	alien_animation->loop = true;
-	alien_animation->num_frames = 2;
-	alien_animation->frame_duration = 10;
-	alien_animation->time = 0;
-
-	alien_animation->frames = new Sprite * [2];
-	alien_animation->frames[0] = &alien_sprite;
-	alien_animation->frames[1] = &alien_sprite1;
-
-	Game game;
-	game.width = buffer_width;
-	game.height = buffer_height;
-	game.num_aliens = 55;
-	game.aliens = new Alien[game.num_aliens];
-
-	game.player.x = buffer_width/2 - 5;
-	game.player.y = 32;
-
-	game.player.life = 3;
-	int player_move_dir = 1;
+	Sprite bullet_sprite = CreateBullet();
+	SpriteAnimation* alien_animation = CreateAnimation(alien_sprite, alien_sprite1);
+	Game game = CreateGame();
 
 	for (size_t yi = 0; yi < 5; ++yi)
 	{
@@ -126,11 +112,37 @@ int main(void) {
 	}
 
     uint32_t clear_color = rgb_to_uint32(0, 128, 0);
-
-    while (!glfwWindowShouldClose(window))
+	game_running = true;
+	while (!glfwWindowShouldClose(window) && game_running)
     {
+		int player_move_dir = 2 * move_dir;
         buffer_clear(&buffer, clear_color);
 		
+		if (player_move_dir != 0)
+		{
+			if (game.player.x + player_sprite.width + player_move_dir >= game.width)
+			{
+				game.player.x = game.width - player_sprite.width;
+			}
+			else if ((int)game.player.x + player_move_dir <= 0)
+			{
+				game.player.x = 0;
+			}
+			else game.player.x += player_move_dir;
+		}
+		for (size_t bi = 0; bi < game.num_bullets;)
+		{
+			game.bullets[bi].y += game.bullets[bi].dir;
+			if (game.bullets[bi].y >= game.height ||
+				game.bullets[bi].y < bullet_sprite.height)
+			{
+				game.bullets[bi] = game.bullets[game.num_bullets - 1];
+				--game.num_bullets;
+				continue;
+			}
+
+			++bi;
+		}
 		for (size_t ai = 0; ai < game.num_aliens; ++ai)
 		{
 			const Alien& alien = game.aliens[ai];
@@ -138,7 +150,12 @@ int main(void) {
 			const Sprite& sprite = *alien_animation->frames[current_frame];
 			buffer_draw_sprite(&buffer, sprite, alien.x, alien.y, rgb_to_uint32(128, 0, 0));
 		}
-
+		for (size_t bi = 0; bi < game.num_bullets; ++bi)
+		{
+			const Bullet& bullet = game.bullets[bi];
+			const Sprite& sprite = bullet_sprite;
+			buffer_draw_sprite(&buffer, sprite, bullet.x, bullet.y, rgb_to_uint32(128, 0, 0));
+		}
 		buffer_draw_sprite(&buffer, player_sprite, game.player.x, game.player.y, rgb_to_uint32(128, 0, 0));
 
         glTexSubImage2D(
@@ -148,7 +165,6 @@ int main(void) {
             buffer.data
         );
 		glfwSwapInterval(1);
-
 		++alien_animation->time;
 		if (alien_animation->time == alien_animation->num_frames * alien_animation->frame_duration)
 		{
@@ -159,7 +175,6 @@ int main(void) {
 				alien_animation = nullptr;
 			}
 		}
-
 		if (game.player.x + player_sprite.width + player_move_dir >= game.width - 1)
 		{
 			game.player.x = game.width - player_sprite.width - player_move_dir - 1;
@@ -171,11 +186,17 @@ int main(void) {
 			player_move_dir *= -1;
 		}
 		else game.player.x += player_move_dir;
-
         glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
 
         glfwSwapBuffers(window);
-
+		if (fire_pressed && game.num_bullets < GAME_MAX_BULLETS)
+		{
+			game.bullets[game.num_bullets].x = game.player.x + player_sprite.width / 2;
+			game.bullets[game.num_bullets].y = game.player.y + player_sprite.height;
+			game.bullets[game.num_bullets].dir = 2;
+			++game.num_bullets;
+		}
+		fire_pressed = false;
         glfwPollEvents();
     }
 
@@ -247,6 +268,14 @@ bool validate_program(GLuint program) {
 	return true;
 }
 
+Buffer CreateBuffer() {
+	Buffer buffer;
+	buffer.width = buffer_width;
+	buffer.height = buffer_height;
+	buffer.data = new uint32_t[buffer.width * buffer.height];
+	return buffer;
+}
+
 void CreateTexture(Buffer buffer) {
 	GLuint buffer_texture;
 	glGenTextures(1, &buffer_texture);
@@ -303,6 +332,70 @@ Sprite CreatePlayer() {
 		1,1,1,1,1,1,1,1,1,1,1, // @@@@@@@@@@@
 	};
 	return player_sprite;
+}
+
+Game CreateGame() {
+	Game game;
+	game.width = buffer_width;
+	game.height = buffer_height;
+	game.num_aliens = 55;
+	game.num_bullets = 0;
+	game.aliens = new Alien[game.num_aliens];
+
+	game.player.x = buffer_width / 2 - 5;
+	game.player.y = 32;
+
+	game.player.life = 3;
+	return game;
+}
+
+Sprite CreateBullet() {
+	Sprite bullet_sprite;
+	bullet_sprite.width = 1;
+	bullet_sprite.height = 3;
+	bullet_sprite.data = new uint8_t[3]
+	{
+		1, // @
+		1, // @
+		1  // @
+	};
+	return bullet_sprite;
+}
+
+SpriteAnimation* CreateAnimation(Sprite alien_sprite, Sprite alien_sprite1) {
+	SpriteAnimation* alien_animation = new SpriteAnimation;
+
+	alien_animation->loop = true;
+	alien_animation->num_frames = 2;
+	alien_animation->frame_duration = 10;
+	alien_animation->time = 0;
+
+	alien_animation->frames = new Sprite * [2];
+	alien_animation->frames[0] = &alien_sprite;
+	alien_animation->frames[1] = &alien_sprite1;
+
+	return alien_animation;
+}
+
+void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods) {
+	switch (key) {
+	case GLFW_KEY_ESCAPE:
+		if (action == GLFW_PRESS) game_running = false;
+		break;
+	case GLFW_KEY_RIGHT:
+		if (action == GLFW_PRESS) move_dir += 1;
+		else if (action == GLFW_RELEASE) move_dir -= 1;
+		break;
+	case GLFW_KEY_LEFT:
+		if (action == GLFW_PRESS) move_dir -= 1;
+		else if (action == GLFW_RELEASE) move_dir += 1;
+		break;
+	case GLFW_KEY_SPACE:
+		if (action == GLFW_RELEASE) fire_pressed = true;
+		break;
+	default:
+		break;
+	}
 }
 
 bool initOpenGL() {
