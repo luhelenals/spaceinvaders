@@ -136,7 +136,6 @@
     <ClCompile Include="src\Items.cpp" />
     <ClCompile Include="src\Main.cpp" />
     <ClCompile Include="src\shaderFunctions.cpp" />
-    <ClCompile Include="test.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="shaders\Source.shader" />

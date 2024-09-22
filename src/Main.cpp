@@ -1,3 +1,4 @@
+#include <string>
 #include <iostream>
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
@@ -7,6 +8,7 @@
 
 GLFWwindow* window = NULL;
 int buffer_width = 224, buffer_height = 256;
+size_t score = 0;
 using namespace std;
 
 #define GL_ERROR_CASE(glerror)\
@@ -50,6 +52,8 @@ Sprite CreateBullet();
 Sprite* CreateAlienSprites();
 Sprite CreateDeathSprite();
 bool sprite_overlap_check(const Sprite& sp_a, size_t x_a, size_t y_a, const Sprite& sp_b, size_t x_b, size_t y_b);
+void buffer_draw_text(Buffer* buffer, const Sprite& text_spritesheet, const char* text, size_t x, size_t y, uint32_t color);
+Sprite CreateTextSprite(char letter);
 
 bool game_running = false;
 int move_dir = 0;
@@ -159,6 +163,13 @@ int main(void) {
 
     Sprite bullet_sprite = CreateBullet();
 
+	Sprite text[5];
+	text[0] = CreateTextSprite('S');
+	text[1] = CreateTextSprite('C');
+	text[2] = CreateTextSprite('O');
+	text[3] = CreateTextSprite('R');
+	text[4] = CreateTextSprite('E');
+
 	SpriteAnimation *alien_animation = CreateAnimation(alien_sprites);
 
     Game game = CreateGame();
@@ -193,6 +204,20 @@ int main(void) {
         buffer_clear(&buffer, clear_color);
 
         // Draw
+		int text_size = 0;
+		for (int i = 0; i < 5; i++)
+		{
+			text_size = 5 + i * (text[i].width + 1);
+			buffer_draw_sprite(&buffer, text[i], text_size, buffer_height - 10, rgb_to_uint32(128, 0, 0));
+		}
+
+		string s = to_string(score);
+		int len = s.length();
+		for (int i = 0; i < len; i++) {
+			Sprite scoreSprite = CreateTextSprite(s[i]);
+			buffer_draw_sprite(&buffer, scoreSprite, text_size + 10 + i * (scoreSprite.width + 1), buffer_height - 10, rgb_to_uint32(128, 0, 0));
+		}
+
         for (size_t ai = 0; ai < game.num_aliens; ++ai)
         {
             if (!death_counters[ai]) continue;
@@ -276,6 +301,7 @@ int main(void) {
                 );
                 if (overlap)
                 {
+					score += ((4 - static_cast<int>(game.aliens[ai].type)) * 10);
                     game.aliens[ai].type = ALIEN_DEAD;
                     // NOTE: Hack to recenter death sprite
                     game.aliens[ai].x -= (alien_death_sprite.width - alien_sprite.width) / 2;
@@ -586,6 +612,165 @@ Sprite CreatePlayer() {
 	return player_sprite;
 }
 
+Sprite CreateTextSprite(char letter) {
+	Sprite textSprite;
+	textSprite.width = 4;
+	textSprite.height = 5;
+	switch (letter) {
+		case 'S':
+			textSprite.data = new uint8_t[textSprite.width * textSprite.height]{
+				0, 1, 1, 1,
+				1, 0, 0, 0,
+				0, 1, 1, 0,
+				0, 0, 0, 1,
+				1, 1, 1, 0
+			};
+		break;
+		
+		case 'C':
+			textSprite.data = new uint8_t[textSprite.width * textSprite.height]{
+				0, 1, 1, 1,
+				1, 0, 0, 0,
+				1, 0, 0, 0,
+				1, 0, 0, 0,
+				0, 1, 1, 1
+			};
+		break;
+
+		case 'O':
+			textSprite.data = new uint8_t[textSprite.width * textSprite.height]{
+				0, 1, 1, 0,
+				1, 0, 0, 1,
+				1, 0, 0, 1,
+				1, 0, 0, 1,
+				0, 1, 1, 0
+			};
+		break;
+
+		case 'R':
+			textSprite.data = new uint8_t[textSprite.width * textSprite.height]{
+				1, 1, 1, 0,
+				1, 0, 0, 1,
+				1, 1, 1, 0,
+				1, 0, 1, 0,
+				1, 0, 0, 1
+			};
+		break;
+
+		case 'E':
+			textSprite.data = new uint8_t[textSprite.width * textSprite.height]{
+				1, 1, 1, 1,
+				1, 0, 0, 0,
+				1, 1, 1, 0,
+				1, 0, 0, 0,
+				1, 1, 1, 1
+			};
+		break;
+
+		case '0':
+			textSprite.data = new uint8_t[textSprite.width * textSprite.height]{
+				1, 1, 1, 0,
+				1, 0, 1, 0,
+				1, 0, 1, 0,
+				1, 0, 1, 0,
+				1, 1, 1, 0
+			};
+		break;
+
+		case '1':
+			textSprite.data = new uint8_t[textSprite.width * textSprite.height]{
+				0, 1, 0, 0,
+				0, 1, 0, 0,
+				0, 1, 0, 0,
+				0, 1, 0, 0,
+				0, 1, 0, 0
+			};
+		break;
+
+		case '2':
+			textSprite.data = new uint8_t[textSprite.width * textSprite.height]{
+				1, 1, 1, 0,
+				0, 0, 1, 0,
+				1, 1, 0, 0,
+				1, 0, 0, 0,
+				1, 1, 1, 0
+			};
+		break;
+
+		case '3':
+			textSprite.data = new uint8_t[textSprite.width * textSprite.height]{
+				1, 1, 1, 0,
+				0, 0, 1, 0,
+				0, 1, 0, 0,
+				0, 0, 1, 0,
+				1, 1, 1, 0
+			};
+		break;
+
+		case '4':
+			textSprite.data = new uint8_t[textSprite.width * textSprite.height]{
+				1, 0, 1, 0,
+				1, 0, 1, 0,
+				1, 1, 1, 0,
+				0, 0, 1, 0,
+				0, 0, 1, 0
+			};
+			break;
+
+		case '5':
+			textSprite.data = new uint8_t[textSprite.width * textSprite.height]{
+				0, 1, 1, 1,
+				0, 1, 0, 0,
+				0, 1, 1, 0,
+				0, 0, 0, 1,
+				0, 1, 1, 0
+			};
+			break;
+
+		case '6':
+			textSprite.data = new uint8_t[textSprite.width * textSprite.height]{
+				1, 1, 1, 0,
+				1, 0, 0, 0,
+				1, 1, 1, 0,
+				1, 0, 1, 0,
+				1, 1, 1, 0
+			};
+			break;
+
+		case '7':
+			textSprite.data = new uint8_t[textSprite.width * textSprite.height]{
+				1, 1, 1, 0,
+				0, 0, 1, 0,
+				0, 0, 1, 0,
+				0, 0, 1, 0,
+				0, 0, 1, 0
+			};
+			break;
+
+		case '8':
+			textSprite.data = new uint8_t[textSprite.width * textSprite.height]{
+				1, 1, 1, 0,
+				1, 0, 1, 0,
+				1, 1, 1, 0,
+				1, 0, 1, 0,
+				1, 1, 1, 0
+			};
+			break;
+
+		case '9':
+			textSprite.data = new uint8_t[textSprite.width * textSprite.height]{
+				1, 1, 1, 0,
+				1, 0, 1, 0,
+				1, 1, 1, 0,
+				0, 0, 1, 0,
+				0, 0, 1, 0
+			};
+			break;
+	}
+
+	return textSprite;
+}
+
 Game CreateGame() {
 	Game game;
 	game.width = buffer_width;
@@ -681,4 +866,25 @@ bool initOpenGL() {
 	}
 
 	return true;
+}
+
+void buffer_draw_text(
+	Buffer* buffer,
+	const Sprite& text_spritesheet,
+	const char* text,
+	size_t x, size_t y,
+	uint32_t color)
+{
+	size_t xp = x;
+	size_t stride = text_spritesheet.width * text_spritesheet.height;
+	Sprite sprite = text_spritesheet;
+	for (const char* charp = text; *charp != '\0'; ++charp)
+	{
+		char character = *charp - 32;
+		if (character < 0 || character >= 65) continue;
+
+		sprite.data = text_spritesheet.data + character * stride;
+		buffer_draw_sprite(buffer, sprite, xp, y, color);
+		xp += sprite.width + 1;
+	}
 }
