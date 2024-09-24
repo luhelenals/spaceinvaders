@@ -1,14 +1,11 @@
 ﻿  Main.cpp
-C:\Users\luiza\source\repos\Space Invaders\src\Main.cpp(121,65): warning C4267: 'argument': conversion from 'size_t' to 'GLsizei', possible loss of data
-C:\Users\luiza\source\repos\Space Invaders\src\Main.cpp(121,51): warning C4267: 'argument': conversion from 'size_t' to 'GLsizei', possible loss of data
-C:\Users\luiza\source\repos\Space Invaders\src\Main.cpp(182,39): warning C4267: '=': conversion from 'size_t' to 'uint8_t', possible loss of data
-C:\Users\luiza\source\repos\Space Invaders\src\Main.cpp(212,18): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
-C:\Users\luiza\source\repos\Space Invaders\src\Main.cpp(217,11): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-C:\Users\luiza\source\repos\Space Invaders\src\Main.cpp(262,33): warning C4267: 'argument': conversion from 'size_t' to 'GLsizei', possible loss of data
-C:\Users\luiza\source\repos\Space Invaders\src\Main.cpp(262,19): warning C4267: 'argument': conversion from 'size_t' to 'GLsizei', possible loss of data
-C:\Users\luiza\source\repos\Space Invaders\src\Main.cpp(455,65): warning C4267: 'argument': conversion from 'size_t' to 'GLsizei', possible loss of data
-C:\Users\luiza\source\repos\Space Invaders\src\Main.cpp(455,51): warning C4267: 'argument': conversion from 'size_t' to 'GLsizei', possible loss of data
-glew32s.lib(glew.obj) : warning LNK4099: PDB '' was not found with 'glew32s.lib(glew.obj)' or at ''; linking object as if no debug info
-LINK : warning LNK4098: defaultlib 'LIBCMT' conflicts with use of other libs; use /NODEFAULTLIB:library
-LINK : warning LNK4098: defaultlib 'MSVCRT' conflicts with use of other libs; use /NODEFAULTLIB:library
+C:\Users\luiza\source\repos\Space Invaders\src\Main.cpp(122,65): warning C4267: 'argument': conversion from 'size_t' to 'GLsizei', possible loss of data
+C:\Users\luiza\source\repos\Space Invaders\src\Main.cpp(122,51): warning C4267: 'argument': conversion from 'size_t' to 'GLsizei', possible loss of data
+C:\Users\luiza\source\repos\Space Invaders\src\Main.cpp(189,39): warning C4267: '=': conversion from 'size_t' to 'uint8_t', possible loss of data
+C:\Users\luiza\source\repos\Space Invaders\src\Main.cpp(217,18): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\luiza\source\repos\Space Invaders\src\Main.cpp(222,11): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\luiza\source\repos\Space Invaders\src\Main.cpp(267,33): warning C4267: 'argument': conversion from 'size_t' to 'GLsizei', possible loss of data
+C:\Users\luiza\source\repos\Space Invaders\src\Main.cpp(267,19): warning C4267: 'argument': conversion from 'size_t' to 'GLsizei', possible loss of data
+C:\Users\luiza\source\repos\Space Invaders\src\Main.cpp(497,65): warning C4267: 'argument': conversion from 'size_t' to 'GLsizei', possible loss of data
+C:\Users\luiza\source\repos\Space Invaders\src\Main.cpp(497,51): warning C4267: 'argument': conversion from 'size_t' to 'GLsizei', possible loss of data
   Space Invaders.vcxproj -> C:\Users\luiza\source\repos\Space Invaders\x64\Debug\Space Invaders.exe

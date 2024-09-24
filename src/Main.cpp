@@ -3,6 +3,7 @@
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 #include <cstdint>
+#include <vector>
 #include "shaderFunctions.cpp"
 #include "Items.cpp"
 
@@ -34,7 +35,6 @@ inline void gl_debug(const char* file, int line) {
 
 #undef GL_ERROR_CASE
 
-bool initOpenGL();
 void error_callback(int error, const char* description);
 uint32_t rgb_to_uint32(uint8_t r, uint8_t g, uint8_t b);
 void buffer_clear(Buffer* buffer, uint32_t color);
@@ -42,7 +42,6 @@ void buffer_draw_sprite(Buffer* buffer, const Sprite& sprite, size_t x, size_t y
 bool validate_program(GLuint program);
 void validate_shader(GLuint shader, const char* file);
 void CreateTexture(GLuint &buffer_texture, Buffer buffer);
-Sprite CreateAlien(bool up);
 Sprite CreatePlayer();
 Buffer CreateBuffer();
 Game CreateGame();
@@ -52,7 +51,6 @@ Sprite CreateBullet();
 Sprite* CreateAlienSprites();
 Sprite CreateDeathSprite();
 bool sprite_overlap_check(const Sprite& sp_a, size_t x_a, size_t y_a, const Sprite& sp_b, size_t x_b, size_t y_b);
-void buffer_draw_text(Buffer* buffer, const Sprite& text_spritesheet, const char* text, size_t x, size_t y, uint32_t color);
 Sprite CreateTextSprite(char letter);
 
 bool game_running = false;
@@ -173,6 +171,12 @@ int main(void) {
 	SpriteAnimation *alien_animation = CreateAnimation(alien_sprites);
 
     Game game = CreateGame();
+
+	GLuint vao, vbo;
+	glGenVertexArrays(1, &vao);
+	glGenBuffers(1, &vbo);
+	glBindVertexArray(vao);
+	glBindBuffer(GL_ARRAY_BUFFER, vbo);
 
     for (size_t yi = 0; yi < 5; ++yi)
     {
@@ -339,6 +343,11 @@ int main(void) {
             ++game.num_bullets;
         }
         fire_pressed = false;
+		glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+
+		if (score > 10) {
+			DarkenScreen(vbo, vao, shader_id);
+		}
 
         glfwPollEvents();
     }
@@ -563,36 +572,6 @@ Sprite CreateDeathSprite() {
 		0,1,0,0,1,0,0,0,1,0,0,1,0  // .@..@...@..@.
 	};
 	return alien_death_sprite;
-}
-
-Sprite CreateAlien(bool up) {
-	size_t width = 11, height = 8;
-	Sprite alien_sprite;
-	alien_sprite.width = width;
-	alien_sprite.height = height;
-
-	alien_sprite.data = up
-		? new uint8_t[alien_sprite.width * alien_sprite.height]{
-		0,0,1,0,0,0,0,0,1,0,0, // ..@.....@..
-		0,0,0,1,0,0,0,1,0,0,0, // ...@...@...
-		0,0,1,1,1,1,1,1,1,0,0, // ..@@@@@@@..
-		0,1,1,0,1,1,1,0,1,1,0, // .@@.@@@.@@.
-		1,1,1,1,1,1,1,1,1,1,1, // @@@@@@@@@@@
-		1,0,1,1,1,1,1,1,1,0,1, // @.@@@@@@@.@
-		1,0,1,0,0,0,0,0,1,0,1, // @.@.....@.@
-		0,0,0,1,1,0,1,1,0,0,0  // ...@@.@@...
-	}
-		: new uint8_t[88]{
-		0,0,1,0,0,0,0,0,1,0,0, // ..@.....@..
-		1,0,0,1,0,0,0,1,0,0,1, // @..@...@..@
-		1,0,1,1,1,1,1,1,1,0,1, // @.@@@@@@@.@
-		1,1,1,0,1,1,1,0,1,1,1, // @@@.@@@.@@@
-		1,1,1,1,1,1,1,1,1,1,1, // @@@@@@@@@@@
-		0,1,1,1,1,1,1,1,1,1,0, // .@@@@@@@@@.
-		0,0,1,0,0,0,0,0,1,0,0, // ..@.....@..
-		0,1,0,0,0,0,0,0,0,1,0  // .@.......@.
-	};
-	return alien_sprite;
 }
 
 Sprite CreatePlayer() {
@@ -835,56 +814,5 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 		break;
 	default:
 		break;
-	}
-}
-
-bool initOpenGL() {
-	if (!glfwInit()) {
-		cout << "GLFW error" << endl;
-		return false;
-	}
-
-	window = glfwCreateWindow(buffer_width, buffer_height, "Space Invaders", NULL, NULL);
-	if (!window)
-	{
-		glfwTerminate();
-		return false;
-	}
-	glfwMakeContextCurrent(window);
-
-	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
-	glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
-
-	GLenum err = glewInit();
-	if (err != GLEW_OK)
-	{
-		cout << "Error initializing GLEW" << endl;
-		glfwTerminate();
-		return false;
-	}
-
-	return true;
-}
-
-void buffer_draw_text(
-	Buffer* buffer,
-	const Sprite& text_spritesheet,
-	const char* text,
-	size_t x, size_t y,
-	uint32_t color)
-{
-	size_t xp = x;
-	size_t stride = text_spritesheet.width * text_spritesheet.height;
-	Sprite sprite = text_spritesheet;
-	for (const char* charp = text; *charp != '\0'; ++charp)
-	{
-		char character = *charp - 32;
-		if (character < 0 || character >= 65) continue;
-
-		sprite.data = text_spritesheet.data + character * stride;
-		buffer_draw_sprite(buffer, sprite, xp, y, color);
-		xp += sprite.width + 1;
 	}
 }

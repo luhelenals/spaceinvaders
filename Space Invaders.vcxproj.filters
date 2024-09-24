@@ -27,5 +27,8 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="shaders\Source.shader" />
+    <None Include=".gitignore">
+      <Filter>Source Files</Filter>
+    </None>
   </ItemGroup>
 </Project>
