@@ -145,6 +145,10 @@ int main(void) {
     GLint location = glGetUniformLocation(shader_id, "buffer");
     glUniform1i(location, 0);
 
+	// After linking the shader program, get the brightness uniform location
+	GLint brightnessLocation = glGetUniformLocation(shader_id, "brightness");
+
+	float brightness = 1.0f;  // Default brightness
 
     //OpenGL setup
     glDisable(GL_DEPTH_TEST);
@@ -345,9 +349,14 @@ int main(void) {
         fire_pressed = false;
 		glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
 
-		if (score > 10) {
-			DarkenScreen(vbo, vao, shader_id);
+		if (score >= 990) {
+			brightness -= 0.01f;  // Gradually darken the screen
+			if (brightness < 0.3f) brightness = 0.3f;  // Clamp to 0.3
+			glfwSetKeyCallback(window, NULL);
 		}
+
+		// Set the brightness uniform in the shader
+		glUniform1f(brightnessLocation, brightness);
 
         glfwPollEvents();
     }

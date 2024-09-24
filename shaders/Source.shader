@@ -15,10 +15,13 @@ void main(void){
 #version 330 core
 
 uniform sampler2D buffer;
+uniform float brightness;
 noperspective in vec2 TexCoord;
 
-out vec3 outColor;
+out vec4 FragColor;
 
 void main(void){
-    outColor = texture(buffer, TexCoord).rgb;
+    vec4 texColor = texture(buffer, TexCoord);
+    texColor.rgb *= brightness;  // Multiply the color by brightness
+    FragColor = texColor;
 }
