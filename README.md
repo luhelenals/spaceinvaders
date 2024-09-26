@@ -5,13 +5,13 @@ Simple recreation of the Space Invaders game using OpenGL.
 - Keyboard player movement and shooting
 - Alien animations
 - Different score count for each type of alien
-- Darken screen and disable keyboard movement on player win
+- Darken screen and disable keyboard movement on player win and lose
+- Alien shooting and player lives update
 
 ## Future updates
-- Alien block movement and shooting
+- Alien block movement
 - Special alien appearances
 - Shields
-- Player lives update
 - "Game over" and "You won" messages
 
 ## Preview
