@@ -15,5 +15,5 @@ Simple recreation of the Space Invaders game using OpenGL.
 - "Game over" and "You won" messages
 
 ## Preview
-https://github.com/user-attachments/assets/61132a4c-1ac9-4143-a871-0c45cdbbc865
+https://github.com/user-attachments/assets/62ca8e5f-1a59-4379-a9e3-1e026f0d2d72
 
