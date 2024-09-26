@@ -7,12 +7,12 @@
       "RelativeMoniker": "D:0:0:{6A5049ED-5FA3-4066-AA5B-BFCF9E6BE1E2}|Space Invaders.vcxproj|solutionrelative:src\\Main.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{6A5049ED-5FA3-4066-AA5B-BFCF9E6BE1E2}|Space Invaders.vcxproj|C:\\Users\\luiza\\source\\repos\\Space Invaders\\shaders\\Source.shader||{3B902123-F8A7-4915-9F01-361F908088D0}",
-      "RelativeMoniker": "D:0:0:{6A5049ED-5FA3-4066-AA5B-BFCF9E6BE1E2}|Space Invaders.vcxproj|solutionrelative:shaders\\Source.shader||{3B902123-F8A7-4915-9F01-361F908088D0}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{6A5049ED-5FA3-4066-AA5B-BFCF9E6BE1E2}|Space Invaders.vcxproj|C:\\Users\\luiza\\source\\repos\\Space Invaders\\src\\Items.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
       "RelativeMoniker": "D:0:0:{6A5049ED-5FA3-4066-AA5B-BFCF9E6BE1E2}|Space Invaders.vcxproj|solutionrelative:src\\Items.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6A5049ED-5FA3-4066-AA5B-BFCF9E6BE1E2}|Space Invaders.vcxproj|C:\\Users\\luiza\\source\\repos\\Space Invaders\\shaders\\Source.shader||{3B902123-F8A7-4915-9F01-361F908088D0}",
+      "RelativeMoniker": "D:0:0:{6A5049ED-5FA3-4066-AA5B-BFCF9E6BE1E2}|Space Invaders.vcxproj|solutionrelative:shaders\\Source.shader||{3B902123-F8A7-4915-9F01-361F908088D0}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{6A5049ED-5FA3-4066-AA5B-BFCF9E6BE1E2}|Space Invaders.vcxproj|C:\\Users\\luiza\\source\\repos\\Space Invaders\\src\\shaderFunctions.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
@@ -30,15 +30,16 @@
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 1,
               "Title": "Items.cpp",
               "DocumentMoniker": "C:\\Users\\luiza\\source\\repos\\Space Invaders\\src\\Items.cpp",
               "RelativeDocumentMoniker": "src\\Items.cpp",
               "ToolTip": "C:\\Users\\luiza\\source\\repos\\Space Invaders\\src\\Items.cpp",
               "RelativeToolTip": "src\\Items.cpp",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAoAAAAAAAAA",
+              "ViewState": "AQIAABIAAAAAAAAAAAAAACcAAAASAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2024-09-13T01:38:58.493Z"
+              "WhenOpened": "2024-09-13T01:38:58.493Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -60,14 +61,14 @@
               "RelativeDocumentMoniker": "src\\Main.cpp",
               "ToolTip": "C:\\Users\\luiza\\source\\repos\\Space Invaders\\src\\Main.cpp",
               "RelativeToolTip": "src\\Main.cpp",
-              "ViewState": "AQIAAEYBAAAAAAAAAAAkwIEBAAAAAAAA",
+              "ViewState": "AQIAAMIAAAAAAAAAAAArwM0AAAAXAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
               "WhenOpened": "2024-09-12T01:49:21.07Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 2,
               "Title": "Source.shader",
               "DocumentMoniker": "C:\\Users\\luiza\\source\\repos\\Space Invaders\\shaders\\Source.shader",
               "RelativeDocumentMoniker": "shaders\\Source.shader",
@@ -75,8 +76,7 @@
               "RelativeToolTip": "shaders\\Source.shader",
               "ViewState": "AQIAAAgAAAAAAAAAAAAAABoAAAABAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
-              "WhenOpened": "2024-09-13T01:03:42.971Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-09-13T01:03:42.971Z"
             }
           ]
         }

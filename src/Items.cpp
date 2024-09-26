@@ -37,6 +37,7 @@ struct Bullet
 {
 	size_t x, y;
 	int dir;
+	bool alienBullet;
 };
 
 struct Game
