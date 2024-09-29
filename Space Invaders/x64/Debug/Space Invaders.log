@@ -1,31 +1,26 @@
 ﻿  Main.cpp
 C:\Users\luiza\source\repos\Space Invaders\src\Main.cpp(119,65): warning C4267: 'argument': conversion from 'size_t' to 'GLsizei', possible loss of data
 C:\Users\luiza\source\repos\Space Invaders\src\Main.cpp(119,51): warning C4267: 'argument': conversion from 'size_t' to 'GLsizei', possible loss of data
-C:\Users\luiza\source\repos\Space Invaders\src\Main.cpp(190,39): warning C4267: '=': conversion from 'size_t' to 'uint8_t', possible loss of data
-C:\Users\luiza\source\repos\Space Invaders\src\Main.cpp(197,11): warning C4477: 'printf' : format string '%d' requires an argument of type 'int', but variadic argument 1 has type 'size_t'
-C:\Users\luiza\source\repos\Space Invaders\src\Main.cpp(197,11): warning C4477: 'printf' : format string '%d' requires an argument of type 'int', but variadic argument 2 has type 'size_t'
-C:\Users\luiza\source\repos\Space Invaders\src\Main.cpp(210,18): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-C:\Users\luiza\source\repos\Space Invaders\src\Main.cpp(214,19): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-C:\Users\luiza\source\repos\Space Invaders\src\Main.cpp(226,18): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
-C:\Users\luiza\source\repos\Space Invaders\src\Main.cpp(231,11): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-C:\Users\luiza\source\repos\Space Invaders\src\Main.cpp(249,79): warning C4244: 'argument': conversion from 'float' to 'size_t', possible loss of data
-C:\Users\luiza\source\repos\Space Invaders\src\Main.cpp(249,61): warning C4244: 'argument': conversion from 'float' to 'size_t', possible loss of data
-C:\Users\luiza\source\repos\Space Invaders\src\Main.cpp(256,67): warning C4244: 'argument': conversion from 'float' to 'size_t', possible loss of data
-C:\Users\luiza\source\repos\Space Invaders\src\Main.cpp(256,49): warning C4244: 'argument': conversion from 'float' to 'size_t', possible loss of data
-C:\Users\luiza\source\repos\Space Invaders\src\Main.cpp(265,41): warning C4244: '=': conversion from 'float' to 'size_t', possible loss of data
-C:\Users\luiza\source\repos\Space Invaders\src\Main.cpp(284,24): warning C4267: 'argument': conversion from 'size_t' to 'GLsizei', possible loss of data
-C:\Users\luiza\source\repos\Space Invaders\src\Main.cpp(284,10): warning C4267: 'argument': conversion from 'size_t' to 'GLsizei', possible loss of data
-C:\Users\luiza\source\repos\Space Invaders\src\Main.cpp(327,47): warning C4244: 'argument': conversion from 'float' to 'size_t', possible loss of data
-C:\Users\luiza\source\repos\Space Invaders\src\Main.cpp(327,29): warning C4244: 'argument': conversion from 'float' to 'size_t', possible loss of data
-C:\Users\luiza\source\repos\Space Invaders\src\Main.cpp(395,14): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
-C:\Users\luiza\source\repos\Space Invaders\src\Main.cpp(407,27): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-C:\Users\luiza\source\repos\Space Invaders\src\Main.cpp(434,27): warning C4244: '=': conversion from 'float' to 'size_t', possible loss of data
-C:\Users\luiza\source\repos\Space Invaders\src\Main.cpp(435,27): warning C4244: '=': conversion from 'float' to 'size_t', possible loss of data
-C:\Users\luiza\source\repos\Space Invaders\src\Main.cpp(461,62): warning C4244: 'argument': conversion from 'float' to 'size_t', possible loss of data
-C:\Users\luiza\source\repos\Space Invaders\src\Main.cpp(461,38): warning C4244: 'argument': conversion from 'float' to 'size_t', possible loss of data
-C:\Users\luiza\source\repos\Space Invaders\src\Main.cpp(582,65): warning C4267: 'argument': conversion from 'size_t' to 'GLsizei', possible loss of data
-C:\Users\luiza\source\repos\Space Invaders\src\Main.cpp(582,51): warning C4267: 'argument': conversion from 'size_t' to 'GLsizei', possible loss of data
-glew32s.lib(glew.obj) : warning LNK4099: PDB '' was not found with 'glew32s.lib(glew.obj)' or at ''; linking object as if no debug info
-LINK : warning LNK4098: defaultlib 'LIBCMT' conflicts with use of other libs; use /NODEFAULTLIB:library
-LINK : warning LNK4098: defaultlib 'MSVCRT' conflicts with use of other libs; use /NODEFAULTLIB:library
+C:\Users\luiza\source\repos\Space Invaders\src\Main.cpp(196,39): warning C4267: '=': conversion from 'size_t' to 'uint8_t', possible loss of data
+C:\Users\luiza\source\repos\Space Invaders\src\Main.cpp(216,18): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+C:\Users\luiza\source\repos\Space Invaders\src\Main.cpp(220,19): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\luiza\source\repos\Space Invaders\src\Main.cpp(232,18): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\luiza\source\repos\Space Invaders\src\Main.cpp(237,11): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\luiza\source\repos\Space Invaders\src\Main.cpp(255,79): warning C4244: 'argument': conversion from 'float' to 'size_t', possible loss of data
+C:\Users\luiza\source\repos\Space Invaders\src\Main.cpp(255,61): warning C4244: 'argument': conversion from 'float' to 'size_t', possible loss of data
+C:\Users\luiza\source\repos\Space Invaders\src\Main.cpp(262,67): warning C4244: 'argument': conversion from 'float' to 'size_t', possible loss of data
+C:\Users\luiza\source\repos\Space Invaders\src\Main.cpp(262,49): warning C4244: 'argument': conversion from 'float' to 'size_t', possible loss of data
+C:\Users\luiza\source\repos\Space Invaders\src\Main.cpp(271,41): warning C4244: '=': conversion from 'float' to 'size_t', possible loss of data
+C:\Users\luiza\source\repos\Space Invaders\src\Main.cpp(290,24): warning C4267: 'argument': conversion from 'size_t' to 'GLsizei', possible loss of data
+C:\Users\luiza\source\repos\Space Invaders\src\Main.cpp(290,10): warning C4267: 'argument': conversion from 'size_t' to 'GLsizei', possible loss of data
+C:\Users\luiza\source\repos\Space Invaders\src\Main.cpp(333,47): warning C4244: 'argument': conversion from 'float' to 'size_t', possible loss of data
+C:\Users\luiza\source\repos\Space Invaders\src\Main.cpp(333,29): warning C4244: 'argument': conversion from 'float' to 'size_t', possible loss of data
+C:\Users\luiza\source\repos\Space Invaders\src\Main.cpp(401,14): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+C:\Users\luiza\source\repos\Space Invaders\src\Main.cpp(413,27): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\luiza\source\repos\Space Invaders\src\Main.cpp(440,27): warning C4244: '=': conversion from 'float' to 'size_t', possible loss of data
+C:\Users\luiza\source\repos\Space Invaders\src\Main.cpp(441,27): warning C4244: '=': conversion from 'float' to 'size_t', possible loss of data
+C:\Users\luiza\source\repos\Space Invaders\src\Main.cpp(467,62): warning C4244: 'argument': conversion from 'float' to 'size_t', possible loss of data
+C:\Users\luiza\source\repos\Space Invaders\src\Main.cpp(467,38): warning C4244: 'argument': conversion from 'float' to 'size_t', possible loss of data
+C:\Users\luiza\source\repos\Space Invaders\src\Main.cpp(588,65): warning C4267: 'argument': conversion from 'size_t' to 'GLsizei', possible loss of data
+C:\Users\luiza\source\repos\Space Invaders\src\Main.cpp(588,51): warning C4267: 'argument': conversion from 'size_t' to 'GLsizei', possible loss of data
   Space Invaders.vcxproj -> C:\Users\luiza\source\repos\Space Invaders\x64\Debug\Space Invaders.exe

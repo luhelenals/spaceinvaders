@@ -182,17 +182,20 @@ int main(void) {
 	glBindVertexArray(vao);
 	glBindBuffer(GL_ARRAY_BUFFER, vbo);
 
-    for (size_t yi = 0; yi < 5; ++yi)
+	size_t aliensRow = 11, offset = alien_death_sprite.width/3, aliensColumn = 5;
+	size_t margin = (game.width - (alien_death_sprite.width * aliensRow + offset * (aliensRow - 1)))/2;
+	
+    for (size_t yi = 0; yi < aliensColumn; ++yi)
     {
-        for (size_t xi = 0; xi < 11; ++xi)
+        for (size_t xi = 0; xi < aliensRow; ++xi)
         {
             Alien& alien = game.aliens[yi * 11 + xi];
             alien.type = (5 - yi) / 2 + 1;
 
             const Sprite& sprite = alien_sprites[2 * (alien.type - 1)];
 
-            alien.x = 16 * xi + 20 + (alien_death_sprite.width - sprite.width) / 2;
-            alien.y = 17 * yi + 128;
+			alien.x = margin + xi * (offset + alien_death_sprite.width);
+			alien.y = 17 * yi + 128;
         }
     }
 
@@ -418,7 +421,7 @@ int main(void) {
 		glfwPollEvents();
 
 		// Update alien positions
-		if (((xi >= game.width/ static_cast<float>(2)) || (xi <= -static_cast<float>(game.width)/2) && (total_aliens > 1)) && !lastAlien)
+		if (((xi >= static_cast<float>(offset) * aliensRow) || (xi <= -static_cast<float>(offset) * aliensRow) && (total_aliens > 1)) && !lastAlien)
 		{
 			yi -= 5;
 			alienMoveDir *= -1;
