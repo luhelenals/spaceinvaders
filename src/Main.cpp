@@ -207,11 +207,17 @@ int main(void) {
     game_running = true;
 	float startTime = glfwGetTime();
     int player_move_dir = 0;
-    while (!glfwWindowShouldClose(window) && game_running)
-    {
-        buffer_clear(&buffer, clear_color);
+	float xi = 0, yi = 0;
+	float alienMoveDir = 0.25;
+	int total_aliens = game.num_aliens;
+	size_t x, y;
+	bool lastAlien = false;
+    
+	while (!glfwWindowShouldClose(window) && game_running)
+	{
+		buffer_clear(&buffer, clear_color);
 
-        // Draw
+		// Draw
 		int text_size = 0;
 		for (int i = 0; i < 5; i++)
 		{
@@ -231,77 +237,80 @@ int main(void) {
 			buffer_draw_sprite(&buffer, life_sprite, (buffer_width - 15 - i * (life_sprite.width + 2)), buffer_height - 15, rgb_to_uint32(128, 0, 0));
 		}
 
-        for (size_t ai = 0; ai < game.num_aliens; ++ai)
-        {
-            if (!death_counters[ai]) continue;
+		for (size_t ai = 0; ai < game.num_aliens; ++ai)
+		{
+			if (!death_counters[ai]) continue;
 
-            const Alien& alien = game.aliens[ai];
-            if (alien.type == ALIEN_DEAD)
-            {
-                buffer_draw_sprite(&buffer, alien_death_sprite, alien.x, alien.y, rgb_to_uint32(128, 0, 0));
-            }
-            else
-            {
-                const SpriteAnimation& animation = alien_animation[alien.type - 1];
-                size_t current_frame = animation.time / animation.frame_duration;
-                const Sprite& sprite = *animation.frames[current_frame];
-                buffer_draw_sprite(&buffer, sprite, alien.x, alien.y, rgb_to_uint32(128, 0, 0));
-            }
-        }
+			const Alien& alien = game.aliens[ai];
+			if (alien.type == ALIEN_DEAD)
+			{
+				buffer_draw_sprite(&buffer, alien_death_sprite, alien.x + xi / 2, alien.y + yi, rgb_to_uint32(128, 0, 0));
+			}
+			else
+			{
+				const SpriteAnimation& animation = alien_animation[alien.type - 1];
+				size_t current_frame = animation.time / animation.frame_duration;
+				const Sprite& sprite = *animation.frames[current_frame];
+				buffer_draw_sprite(&buffer, sprite, alien.x + xi / 2, alien.y + yi, rgb_to_uint32(128, 0, 0));
+			}
+		}
 
-        for (size_t bi = 0; bi < game.num_bullets; ++bi)
-        {
-            const Bullet& bullet = game.bullets[bi];
-            const Sprite& sprite = bullet_sprite;
-            buffer_draw_sprite(&buffer, sprite, bullet.x, bullet.y, rgb_to_uint32(128, 0, 0));
-        }
+		for (size_t bi = 0; bi < game.num_bullets; ++bi)
+		{
+			const Bullet& bullet = game.bullets[bi];
+			const Sprite& sprite = bullet_sprite;
+			size_t y;
+			if (bullet.alienBullet) y = bullet.y + yi;
+			else y = bullet.y;
+			buffer_draw_sprite(&buffer, sprite, bullet.x, y, rgb_to_uint32(128, 0, 0));
+		}
 
-        buffer_draw_sprite(&buffer, player_sprite, game.player.x, game.player.y, rgb_to_uint32(128, 0, 0));
+		buffer_draw_sprite(&buffer, player_sprite, game.player.x, game.player.y, rgb_to_uint32(128, 0, 0));
 
-        // Update animations
-        for (size_t i = 0; i < 3; ++i)
-        {
-            ++alien_animation[i].time;
-            if (alien_animation[i].time == alien_animation[i].num_frames * alien_animation[i].frame_duration)
-            {
-                alien_animation[i].time = 0;
-            }
-        }
+		// Update animations
+		for (size_t i = 0; i < 3; ++i)
+		{
+			++alien_animation[i].time;
+			if (alien_animation[i].time == alien_animation[i].num_frames * alien_animation[i].frame_duration)
+			{
+				alien_animation[i].time = 0;
+			}
+		}
 
-        glTexSubImage2D(
-            GL_TEXTURE_2D, 0, 0, 0,
-            buffer.width, buffer.height,
-            GL_RGBA, GL_UNSIGNED_INT_8_8_8_8,
-            buffer.data
-        );
-        glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+		glTexSubImage2D(
+			GL_TEXTURE_2D, 0, 0, 0,
+			buffer.width, buffer.height,
+			GL_RGBA, GL_UNSIGNED_INT_8_8_8_8,
+			buffer.data
+		);
+		glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
 
-        glfwSwapBuffers(window);
+		glfwSwapBuffers(window);
 
-        // Simulate aliens
-        for (size_t ai = 0; ai < game.num_aliens; ++ai)
-        {
-            const Alien& alien = game.aliens[ai];
-            if (alien.type == ALIEN_DEAD && death_counters[ai])
-            {
-                --death_counters[ai];
-            }
-        }
+		// Simulate aliens
+		for (size_t ai = 0; ai < game.num_aliens; ++ai)
+		{
+			const Alien& alien = game.aliens[ai];
+			if (alien.type == ALIEN_DEAD && death_counters[ai])
+			{
+				--death_counters[ai];
+			}
+		}
 
-        // Simulate bullets
-        for (size_t bi = 0; bi < game.num_bullets;)
-        {
-            game.bullets[bi].y += game.bullets[bi].dir;
-            if (game.bullets[bi].y >= game.height || game.bullets[bi].y < bullet_sprite.height)
-            {
-                game.bullets[bi] = game.bullets[game.num_bullets - 1];
-                --game.num_bullets;
-                continue;
-            }
+		// Simulate bullets
+		for (size_t bi = 0; bi < game.num_bullets;)
+		{
+			game.bullets[bi].y += game.bullets[bi].dir;
+			if (game.bullets[bi].y >= game.height || game.bullets[bi].y < bullet_sprite.height)
+			{
+				game.bullets[bi] = game.bullets[game.num_bullets - 1];
+				--game.num_bullets;
+				continue;
+			}
 
-            // Check hit
-            for (size_t ai = 0; ai < game.num_aliens; ++ai)
-            {
+			// Check hit
+			for (size_t ai = 0; ai < game.num_aliens; ++ai)
+			{
 				if (!game.bullets[bi].alienBullet)
 				{
 					const Alien& alien = game.aliens[ai];
@@ -313,7 +322,7 @@ int main(void) {
 
 					bool overlap = sprite_overlap_check(
 						bullet_sprite, game.bullets[bi].x, game.bullets[bi].y,
-						alien_sprite, alien.x, alien.y);
+						alien_sprite, alien.x + xi / 2, alien.y + yi);
 
 					if (overlap)
 					{
@@ -323,6 +332,7 @@ int main(void) {
 						game.aliens[ai].x -= (alien_death_sprite.width - alien_sprite.width) / 2;
 						game.bullets[bi] = game.bullets[game.num_bullets - 1];
 						--game.num_bullets;
+						--total_aliens;
 
 						continue;
 					}
@@ -337,7 +347,7 @@ int main(void) {
 					if (overlap && game.num_bullets)
 					{
 						game.player.life--;
-						
+
 						game.bullets[bi] = game.bullets[game.num_bullets - 1];
 						--game.num_bullets;
 
@@ -345,37 +355,37 @@ int main(void) {
 					}
 					continue;
 				}
-            }
+			}
 
-            ++bi;
-        }
+			++bi;
+		}
 
-        // Simulate player
-        player_move_dir = 2 * move_dir;
+		// Simulate player
+		player_move_dir = 2 * move_dir;
 
-        if (player_move_dir != 0)
-        {
-            if (game.player.x + player_sprite.width + player_move_dir >= game.width)
-            {
-                game.player.x = game.width - player_sprite.width;
-            }
-            else if ((int)game.player.x + player_move_dir <= 0)
-            {
-                game.player.x = 0;
-            }
-            else game.player.x += player_move_dir;
-        }
+		if (player_move_dir != 0)
+		{
+			if (game.player.x + player_sprite.width + player_move_dir >= game.width)
+			{
+				game.player.x = game.width - player_sprite.width;
+			}
+			else if ((int)game.player.x + player_move_dir <= 0)
+			{
+				game.player.x = 0;
+			}
+			else game.player.x += player_move_dir;
+		}
 
-        // Process events
-        if (fire_pressed && game.num_bullets < GAME_MAX_BULLETS)
-        {
-            game.bullets[game.num_bullets].x = game.player.x + player_sprite.width / 2;
-            game.bullets[game.num_bullets].y = game.player.y + player_sprite.height;
-            game.bullets[game.num_bullets].dir = 2;
+		// Process events
+		if (fire_pressed && game.num_bullets < GAME_MAX_BULLETS)
+		{
+			game.bullets[game.num_bullets].x = game.player.x + player_sprite.width / 2;
+			game.bullets[game.num_bullets].y = game.player.y + player_sprite.height;
+			game.bullets[game.num_bullets].dir = 2;
 			game.bullets[game.num_bullets].alienBullet = false;
-            ++game.num_bullets;
-        }
-        fire_pressed = false;
+			++game.num_bullets;
+		}
+		fire_pressed = false;
 		glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
 
 		// Randomize alien bullets every 3 seconds
@@ -405,8 +415,60 @@ int main(void) {
 		// Set the brightness uniform in the shader
 		glUniform1f(brightnessLocation, brightness);
 
-        glfwPollEvents();
-    }
+		glfwPollEvents();
+
+		// Update alien positions
+		if (((xi >= game.width/ static_cast<float>(2)) || (xi <= -static_cast<float>(game.width)/2) && (total_aliens > 1)) && !lastAlien)
+		{
+			yi -= 5;
+			alienMoveDir *= -1;
+		}
+		else if (total_aliens == 1 && !lastAlien)
+		{
+			// Find last alien's position and update bool lastAlien
+			for (size_t i = 0; i < game.num_aliens; i ++) {
+				if (game.aliens[i].type != ALIEN_DEAD)
+				{
+					x = game.aliens[i].x + xi;
+					y = game.aliens[i].y + yi;
+				}
+			}
+			lastAlien = true;
+			alienMoveDir = 5;
+		}
+
+		if (lastAlien) {
+			cout << game.width << endl;
+			if ((x + xi >= game.width) || (x + xi <= 0)) {
+				alienMoveDir *= -1;
+				yi -= 5;
+			}
+		}
+		xi += alienMoveDir;
+
+		// Check for alien x player
+		for (size_t bi = 0; bi < game.num_aliens; bi++)
+		{
+			if (game.aliens[bi].type != ALIEN_DEAD) {
+				const Player& player = game.player;
+				const SpriteAnimation& animation = alien_animation[game.aliens[bi].type - 1];
+				size_t current_frame = animation.time / animation.frame_duration;
+				const Sprite& alien_sprite = *animation.frames[current_frame];
+
+				bool overlap = sprite_overlap_check(
+					alien_sprite, game.aliens[bi].x + xi, game.aliens[bi].y + yi,
+					player_sprite, player.x, player.y);
+
+				if (overlap)
+				{
+					game.player.life = 0;
+					cout << "te peguei" << endl;
+					continue;
+				}
+				continue;
+			}
+		}
+	}
 
     glfwDestroyWindow(window);
     glfwTerminate();
